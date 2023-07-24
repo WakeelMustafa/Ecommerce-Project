@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-
+  has_many :products
   has_one_attached:avatar
   attribute :firstname
   attribute :lastname
