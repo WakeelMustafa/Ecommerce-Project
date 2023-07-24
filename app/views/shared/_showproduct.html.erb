@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+    </div>
+    <div class="col-sm-6" style="text-align:center">
+      <h1 style="text-align:center">Product Details</h1>
+      <div style="text-align:center">
+        <h5>Product Name:</h5>
+        <p><%= @product.name%></p>
+        <h5>Product Price:</h5>
+        <%= @product.price%>
+        <h5>Product Description:</h5>
+        <%= @product.description%>
+        <h5>Product Images</h5>
+        <% (0...@product.images.count).each do |image| %>
+        <%= image_tag(@product.images[image], size: "150x150")%>
+        <%end%>
+      </div>
+    </div>
+    <div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+  </div>
+</div>
