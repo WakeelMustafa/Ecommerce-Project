@@ -25,7 +25,7 @@ class ProductsController < ApplicationController
   end
 
   def destroy
-  # @product.comments.destroy_all
+    @product.comments.destroy_all
     @product.destroy
     redirect_to(action: :index)
   end

@@ -10,21 +10,19 @@
       <div class="card" style="width: 18rem;">
         <% abc = product.images %>
         <%= image_tag(abc.first) if abc.first.present? %>
-
         <div class="card-body">
           <h5 class="card-title"><%= product.price%></h5>
           <h5 class="card-title"><%=product.name%></h5>
-
           <p class="card-text"><%=product.description%></p>
           <div class="btn-group">
             <%= link_to 'Details', myproduct_url(product), :class=>"btn btn-info"%>
-
+            <%= link_to 'Comments', product_comments_url(product), method: 'get' , class:"btn btn-secondary" %>
           </div>
-
+           <%= link_to 'Add Comment',new_product_comment_path(product.id),class: "btn btn-success" , method: 'get' %>
         </div>
       </div>
     </div>
     <%end%>
   </div>
-
+</div>
 </div>
