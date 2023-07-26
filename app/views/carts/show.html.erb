@@ -1,0 +1,36 @@
+<h1 style="text-align:center;margin-top:20px">Cart</h1>
+
+<table class="table" style="margin-top:100px">
+
+  <thead class="thead-dark">
+
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Product Image</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Product Price</th>
+       <th scope="col">Product Quantity</th>
+       <th scope="col">Product Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <%serial=1%>
+  <%@line_items.each do |line_item|%>
+ <% @product = Product.find(line_item.product_id)%>
+      <th scope="row"><%=serial%></th><%serial=serial+1%>
+      <td><%= image_tag @product.images.first, size: '50x50' %></td>
+      <td> <%=@product.name%></td>
+      <td> <%=@product.price%></td>
+      <td>
+      <div class="btn-group">
+    <%= button_to '+', line_item, method: :patch, class: "btn btn-success", style:"margin-right:2px"%>
+    <%= line_item.quantity %>
+    <%= button_to '-', line_item, method: :delete ,  class:"btn btn-danger" ,style:"margin-left:2px"%><br>
+    </div>
+   </td>
+   <td> <%=@product.price*line_item.quantity %></td>
+  </tr>
+<% end %>
+  </tbody>
+</table>

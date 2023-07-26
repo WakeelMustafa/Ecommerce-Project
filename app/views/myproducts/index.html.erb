@@ -16,6 +16,9 @@
           <p class="card-text"><%=product.description%></p>
           <div class="btn-group">
             <%= link_to 'Details', product_comments_url(product), method: 'get' , class:"btn btn-info" %>
+            <% if product.user_id != current_user.id %>
+           <%= button_to 'Add to Cart', product_line_items_path(product), method: :post  , class:"btn btn-secondary" %>
+           <%end%>
           </div>
         </div>
       </div>
