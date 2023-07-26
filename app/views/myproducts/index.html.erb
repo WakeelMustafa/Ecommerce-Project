@@ -4,21 +4,19 @@
   <h2 style="margin-bottom:36px">All Available Products</h2>
 </div>
 <div class="container">
-  <div class="row">
+  <div class="row mt-4">
     <% @products.each do |product|  %>
     <div class="col-sm-3">
       <div class="card" style="width: 18rem;">
         <% abc = product.images %>
-        <%= image_tag(abc.first) if abc.first.present? %>
+        <%= image_tag(abc.first , style: 'height:390px' )if abc.first.present? %>
         <div class="card-body">
           <h5 class="card-title"><%= product.price%></h5>
           <h5 class="card-title"><%=product.name%></h5>
           <p class="card-text"><%=product.description%></p>
           <div class="btn-group">
-            <%= link_to 'Details', myproduct_url(product), :class=>"btn btn-info"%>
-            <%= link_to 'Comments', product_comments_url(product), method: 'get' , class:"btn btn-secondary" %>
+            <%= link_to 'Details', product_comments_url(product), method: 'get' , class:"btn btn-info" %>
           </div>
-           <%= link_to 'Add Comment',new_product_comment_path(product.id),class: "btn btn-success" , method: 'get' %>
         </div>
       </div>
     </div>

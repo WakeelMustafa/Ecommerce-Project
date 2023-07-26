@@ -1,7 +1,7 @@
 class Product < ApplicationRecord
-    belongs_to :user
     has_many :comments, dependent: :destroy
     has_many_attached :images
+    belongs_to :user
     before_create :generate_serial_number
 
   private
@@ -16,4 +16,5 @@ class Product < ApplicationRecord
       break serial_number unless Product.exists?(serial_number: serial_number)
     end
   end
+
 end

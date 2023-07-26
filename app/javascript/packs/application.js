@@ -13,4 +13,3 @@ import "../../assets/stylesheets/application"
 require("jquery")
 Rails.start()
 Turbolinks.start()
-ActiveStorage.start()

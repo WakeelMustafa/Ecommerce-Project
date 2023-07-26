@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
- before_action :set_product, only:[:show, :edit, :destroy, :update]
+ before_action :set_product, only:[ :edit, :destroy, :update]
 
   def index
     @products = current_user.products
@@ -38,5 +38,6 @@ class ProductsController < ApplicationController
 
   def set_product
     @product = current_user.products.find(params[:id])
+
   end
 end

@@ -1,15 +1,15 @@
 class User < ApplicationRecord
+  attr_accessor :firstname,:lastname
   has_many :products
+  has_many :comments
   has_one_attached:avatar
-  attribute :firstname
-  attribute :lastname
-  before_save :concatenate_fullname
+  validates :firstname, :lastname, presence: true
+  before_create :concatenate_fullname
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-
 
   private
 
