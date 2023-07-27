@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
   before_action :set_comment, only:[ :destroy, :edit,  :update]
 
   def index
-    @comments = @product.comments
+    @comments = @product.comments.order(created_at: :desc)
   end
 
   def destroy

@@ -1,8 +1,9 @@
 class ProductsController < ApplicationController
  before_action :set_product, only:[ :edit, :destroy, :update]
+ before_action :authenticate_user!
 
   def index
-    @products = current_user.products
+    @products = current_user.products.order(created_at: :desc)
   end
 
   def show; end
@@ -40,4 +41,5 @@ class ProductsController < ApplicationController
     @product = current_user.products.find(params[:id])
 
   end
+
 end
