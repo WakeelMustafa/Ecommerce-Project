@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
  before_action :authenticate_user!
 
   def index
-    @products = current_user.products.order(created_at: :desc)
+    @products = current_user.products.order(created_at: :desc).paginate(page: params[:page], per_page: 8)
   end
 
   def show; end
@@ -26,7 +26,6 @@ class ProductsController < ApplicationController
   end
 
   def destroy
-    @product.comments.destroy_all
     @product.destroy
     redirect_to(action: :index)
   end
@@ -39,7 +38,6 @@ class ProductsController < ApplicationController
 
   def set_product
     @product = current_user.products.find(params[:id])
-
   end
 
 end

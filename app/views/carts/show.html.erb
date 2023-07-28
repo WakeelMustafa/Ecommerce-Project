@@ -16,10 +16,9 @@
   <tbody>
     <% if user_signed_in? %>
     <tr>
-      <%serial=1%>
-      <%@line_items.each do |line_item|%>
+     <% @line_items.each_with_index do |line_item, index| %>
       <% @product = Product.find(line_item.product_id)%>
-      <th scope="row"><%=serial%></th><%serial=serial+1%>
+      <th scope="row"><%=index+1%></th>
       <td><%= image_tag @product.images.first, size: '50x50' %></td>
       <td> <%=@product.name%></td>
       <td> <%=@product.price%></td>
@@ -35,21 +34,22 @@
     <% end %>
     <% else %>
     <tr>
-      <%serial=1%>
+      <%index=1%>
       <% session[:guest_line_items]&.each do |product_id, quantity| %>
-      <% @product = Product.find(product_id)%>
-      <th scope="row"><%=serial%></th><%serial=serial+1%>
-      <td><%= image_tag @product.images.first, size: '50x50' %></td>
-      <td> <%= @product.name %></td>
-      <td><%= @product.price %></td>
-      <td>
-        <div class="btn-group">
-          <%= button_to '+', line_item_path(product_id), method: :patch, class: "btn btn-success", style:"margin-right:2px"%>
-          <%= quantity %>
-          <%= button_to '-', line_item_path(product_id), method: :delete ,  class:"btn btn-danger" ,style:"margin-left:2px"%><br>
-        </div>
-      </td>
-      <td> <%=@product.price*quantity %></td>
+        <% @product = Product.find(product_id)%>
+        <th scope="row"><%=index%></th><%index+=1%>
+        <td><%= image_tag @product.images.first, size: '50x50' %></td>
+        <td> <%= @product.name %></td>
+        <td><%= @product.price %></td>
+        <td>
+          <div class="btn-group">
+            <%= button_to '+', line_item_path(product_id), method: :patch, class: "btn btn-success", style:"margin-right:2px"%>
+            <%= quantity %>
+            <%= button_to '-', line_item_path(product_id), method: :delete ,  class:"btn btn-danger" ,style:"margin-left:2px"%><br>
+          </div>
+        </td>
+        <td> <%=@product.price*quantity %></td>
+
     </tr>
     <% end %>
     <% end %>

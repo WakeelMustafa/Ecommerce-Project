@@ -56,10 +56,12 @@ class LineItemsController < ApplicationController
 
     product = Product.find(params[:product_id])
     session[:guest_line_items] ||= {}
-    session[:guest_line_items][product.id] ||= 0
-    session[:guest_line_items][product.id] = session[:guest_line_items][params[:product_id]]+1
+    unless session[:guest_line_items].has_key?(product.id.to_s)
+     session[:guest_line_items][product.id] ||= 1
+    else
+     session[:guest_line_items][product.id.to_s]=  session[:guest_line_items][product.id.to_s] + 1
+    end
     redirect_to myproducts_path, notice: 'Product added to cart.'
-
   end
 
 end

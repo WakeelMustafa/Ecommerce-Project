@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
     has_many :comments, dependent: :destroy
-    has_many :line_items
+    has_many :line_items, dependent: :destroy
     has_many_attached :images
     belongs_to :user
     before_create :generate_serial_number
