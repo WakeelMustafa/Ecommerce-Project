@@ -1,0 +1,10 @@
+<div style="text-align:center">
+  <h1 style="margin-top:25px">UPDATE Comment</h1>
+  <%= form_for [@product, @comment], local: true do |f| %>
+  <div class="form-group mt-4">
+    <%= f.label :Comment %><br />
+    <%= f.text_field :text %>
+  </div>
+  <%= f.submit "UPDATE Comment", class: 'btn btn-warning mt-4' %>
+</div>
+<% end %>

@@ -1,0 +1,34 @@
+<div style="text-align:center">
+  <h1>Welcome To The Ecommerce Website</h1>
+  <h2 style="margin-bottom:36px">All Available Products</h2>
+</div>
+<div class="container">
+  <div class="row mt-4">
+    <% @products.each do |product|  %>
+    <div class="col-sm-3">
+      <div class="card" style="width: 18rem;">
+        <% abc = product.images %>
+        <%= image_tag(abc.first , style: 'height:390px' )if abc.first.present? %>
+        <div class="card-body">
+          <h5 class="card-title"><%= product.price%></h5>
+          <h5 class="card-title"><%=product.name%></h5>
+          <p class="card-text"><%=product.description%></p>
+          <div class="btn-group">
+            <%= link_to 'Details', product_comments_url(product), method: 'get' , class:"btn btn-info" %>
+           <% if user_signed_in? %>
+           <% if product.user_id != current_user.id %>
+           <%= button_to 'Add to Cart', product_line_items_path(product), method: :post  , class:"btn btn-secondary" %>
+           <%end%>
+           <%else%>
+             <%= button_to 'Add to Cart', product_line_items_path(product), method: :post  , class:"btn btn-secondary" %>
+           <%end%>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%end%>
+
+  </div>
+</div>
+</div>
+<%= will_paginate @products %>
