@@ -24,9 +24,9 @@
       <td> <%=@product.price%></td>
       <td>
         <div class="btn-group">
-          <%= button_to '+', line_item, method: :patch, class: "btn btn-success", style:"margin-right:2px"%>
+          <%= button_to '+', line_item, method: :patch, class: "btn btn-success", remote: true, style:"margin-right:2px"%>
           <%= line_item.quantity %>
-          <%= button_to '-', line_item, method: :delete ,  class:"btn btn-danger" ,style:"margin-left:2px"%><br>
+          <%= button_to '-', line_item, method: :delete ,  class:"btn btn-danger", remote: true ,style:"margin-left:2px"%><br>
         </div>
       </td>
       <td> <%=@product.price*line_item.quantity %></td>
@@ -43,9 +43,9 @@
         <td><%= @product.price %></td>
         <td>
           <div class="btn-group">
-            <%= button_to '+', line_item_path(product_id), method: :patch, class: "btn btn-success", style:"margin-right:2px"%>
+            <%= button_to '+', line_item_path(product_id), method: :patch, class: "btn btn-success", remote: true, style:"margin-right:2px"%>
             <%= quantity %>
-            <%= button_to '-', line_item_path(product_id), method: :delete ,  class:"btn btn-danger" ,style:"margin-left:2px"%><br>
+            <%= button_to '-', line_item_path(product_id), method: :delete ,  class:"btn btn-danger", remote: true ,style:"margin-left:2px"%><br>
           </div>
         </td>
         <td> <%=@product.price*quantity %></td>

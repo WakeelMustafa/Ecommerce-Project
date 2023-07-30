@@ -17,10 +17,10 @@
             <%= link_to 'Details', product_comments_url(product), method: 'get' , class:"btn btn-info" %>
            <% if user_signed_in? %>
            <% if product.user_id != current_user.id %>
-           <%= button_to 'Add to Cart', product_line_items_path(product), method: :post  , class:"btn btn-secondary" %>
+           <%= button_to 'Add to Cart', product_line_items_path(product), method: :post  , remote: true, class:"btn btn-secondary" %>
            <%end%>
            <%else%>
-             <%= button_to 'Add to Cart', product_line_items_path(product), method: :post  , class:"btn btn-secondary" %>
+             <%= button_to 'Add to Cart', product_line_items_path(product), method: :post  , remote: true, class:"btn btn-secondary" %>
            <%end%>
           </div>
         </div>
