@@ -1,6 +1,8 @@
 class ProductsController < ApplicationController
  before_action :set_product, only:[ :edit, :destroy, :update]
  before_action :authenticate_user!
+ after_action :add_stripe_product, only:[ :create]
+
 
   def index
     @products = current_user.products.order(created_at: :desc).paginate(page: params[:page], per_page: 8)
@@ -38,6 +40,12 @@ class ProductsController < ApplicationController
 
   def set_product
     @product = current_user.products.find(params[:id])
+  end
+
+   def add_stripe_product
+    stripe_services = StripeServices.new
+    stripe_product=stripe_services.create_stripe_product(@product)
+    stripe_product_price=stripe_services.create_stripe_product_price(stripe_product, @product)
   end
 
 end

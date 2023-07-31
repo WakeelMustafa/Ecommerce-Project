@@ -1,0 +1,30 @@
+<h1 style="text-align:center">Your Order has been placed</h1>
+<table class="table" style="margin-top:100px">
+
+  <thead class="thead-dark">
+
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Product Image</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Product Price</th>
+      <th scope="col">Product Quantity</th>
+      <th scope="col">Product Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+     <% current_user.line_items.each_with_index do |line_item, index| %>
+      <% @product = Product.find(line_item.product_id)%>
+      <th scope="row"><%=index+1%></th>
+      <td><%= image_tag @product.images.first, size: '50x50' %></td>
+      <td> <%=@product.name%></td>
+      <td> <%=@product.price%></td>
+      <td><%= line_item.quantity %> </td>
+      <td> <%=@product.price*line_item.quantity %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<h1 style="text-align:center"><strong>Grand Total Price: <%= current_user.line_items.sum(&:total_price) %></strong>
+ <%= button_to 'Back to home',myproducts_remove_cart_item_path, method: :post,  class:"btn btn-danger" ,style:"margin-left:2px"%><br>

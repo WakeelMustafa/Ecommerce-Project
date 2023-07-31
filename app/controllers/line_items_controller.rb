@@ -25,6 +25,16 @@ class LineItemsController < ApplicationController
 
   end
 
+  def checkout
+    stripe_lineitems=Hash.new
+    current_user.line_items.each do |item|
+      product = Product.find(item.product_id)
+      stripe_lineitems[product.stripe_product_price_id] = item.quantity
+    end
+      stripe_session=StripeServices.new.create_checkout(stripe_lineitems)
+      redirect_to stripe_session.url
+  end
+
   def update
 
     if user_signed_in?
@@ -39,8 +49,9 @@ class LineItemsController < ApplicationController
 
   end
 
-  def create_line_item_for_user
+private
 
+  def create_line_item_for_user
     product = Product.find(params[:product_id])
     if current_user.id== product.user_id
       redirect_to myproducts_path, notice: 'You want add that Product to cart.'

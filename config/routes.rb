@@ -13,4 +13,9 @@ Rails.application.routes.draw do
     resources :line_items, only: [:create]
   end
   resources :line_items, only: [:destroy, :update]
+
+  post '/line_items/checkout'
+  get '/carts/success'
+  get '/carts/cancel'
+  post '/myproducts/remove_cart_item', to: 'myproducts#remove_cart_item',as: "myproducts_remove_cart_item"
 end

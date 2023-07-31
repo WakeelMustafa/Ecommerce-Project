@@ -1,25 +1,33 @@
 <h1 style="text-align:center; margin-botto:36px">My Products</h1>
-<%= button_to 'Add Product',new_product_path , method: :get , class:"btn btn-success" %>
+<%= link_to 'ADD Product',new_product_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-bs-target' => '#exampleModal', class: 'btn btn-success'}  %>
+
 <div class="container mt-4">
   <div class="row">
     <% @products.each do |product|  %>
-    <div class="col-sm-3">
+      <div class="col-sm-3">
       <div class="card" style="width: 18rem;">
-        <% abc = product.images %>
-        <%= image_tag(abc.first, style: 'height:390px' ) if abc.first.present? %>
-        <div class="card-body">
+      <% abc = product.images %>
+      <%= image_tag(abc.first, style: 'height:390px' ) if abc.first.present? %>
+       <div class="card-body">
           <h5 class="card-title"><%= product.price%></h5>
           <h5 class="card-title"><%=product.name%></h5>
           <p class="card-text"><%=product.description%></p>
           <div class="btn-group">
             <%= link_to 'Details', product_comments_url(product), method: 'get' , class:"btn btn-info" %>
-            <%= button_to 'Delete', product_path(product), method: 'delete' , class:"btn btn-danger" %>
-            <%= button_to 'Edit', edit_product_path(product), method: 'get' , class:"btn btn-warning" %>
+            <%= button_to 'Delete', product_path(product), method: 'delete' , remote: true, class:"btn btn-danger" %>
+            <%= link_to 'Edit', edit_product_path(product),{:remote => true, 'data-toggle' =>  "modal", 'data-bs-target' => '#exampleModal', class: 'btn btn-warning', method: 'get'} %>
           </div>
         </div>
       </div>
-    </div>
-    <%end%>
+     </div>
+   <%end%>
   </div>
 </div>
 <%= will_paginate @products %>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+</div>

@@ -1,0 +1,9 @@
+  <%= form_for [@product, @comment], remote: true do |f| %>
+  <div class="form-group mt-4">
+    <%= f.label :Comment %><br />
+    <%= f.text_field :text %>
+  </div>
+  <%= f.submit "Submit", class: 'btn btn-primary mt-4' %>
+  <button type="button" class="btn btn-secondary" style="margin-top:22px" data-dismiss="modal">Close</button>
+
+  <% end %>

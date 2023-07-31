@@ -8,4 +8,9 @@ class MyproductsController < ApplicationController
     @product = Product.find(params[:id])
   end
 
+  def remove_cart_item
+    current_user.line_items.destroy_all
+    redirect_to(action: :index)
+  end
+
 end
