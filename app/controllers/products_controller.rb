@@ -5,12 +5,7 @@ class ProductsController < ApplicationController
 
 
   def index
-    if params[:search].present?
-      @search_term = params[:search]
-      @products = Product.search(@search_term)
-    else
       @products = current_user.products.order(created_at: :desc).paginate(page: params[:page], per_page: 8)
-    end
   end
 
   def show; end
