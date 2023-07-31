@@ -5,7 +5,8 @@ class ProductsController < ApplicationController
 
 
   def index
-    @products = current_user.products.order(created_at: :desc).paginate(page: params[:page], per_page: 8)
+    @q=current_user.products.ransack(params[:q])
+    @products=@q.result(distinct: true).order(created_at: :desc).paginate(page: params[:page], per_page: 8)
   end
 
   def show; end
