@@ -1,3 +1,11 @@
+<div style="text-align:center;">
+<%= form_tag products_path, method: :get do %>
+  <div class="field">
+    <%= text_field_tag :search, params[:search], style: "padding: 5px;" %>
+    <%=submit_tag "Search", class:"btn btn-info"%>
+  </div>
+  </div>
+<%end%>
 <h1 style="text-align:center; margin-botto:36px">My Products</h1>
 <%= link_to 'ADD Product',new_product_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-bs-target' => '#exampleModal', class: 'btn btn-success'}  %>
 
