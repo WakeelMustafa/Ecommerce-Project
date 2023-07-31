@@ -59,3 +59,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 gem 'will_paginate', '~> 4.0'
 gem 'stripe'
+gem "font-awesome-sass", "~> 6.4.0"

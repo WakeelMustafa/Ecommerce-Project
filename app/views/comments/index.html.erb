@@ -17,11 +17,11 @@
         <%= image_tag(abc.first , style: 'height:300px;transition-duration:0.5s' )if abc.first.present? %>
       </div>
       <% (1...@product.images.count).each do |image| %>
-      <div class="carousel-item">
-        <%= image_tag(@product.images[image], style: 'height:300px' )%>
+        <div class="carousel-item">
+         <%= image_tag(@product.images[image], style: 'height:300px' )%>
         <div class="carousel-caption">
         </div>
-      </div>
+       </div>
       <%end%>
     </div>
   </div>
@@ -32,19 +32,19 @@
 <div style="text-align:center">
   <h1 style="margin-top:127px">All Comments From Users</h1>
   <% @comments.each do |comment| %>
-  <%  @user = User.find(comment.user_id)%>
-  <% if @user.avatar.attached? %>
-  <%= image_tag @user.avatar.variant(resize: '50x50') , :class => "rounded-circle shadow-4-strong"%>
-  <% else %>
-  <%= image_tag 'default_avatar.jpg', size: '50x50', :class => "rounded-circle shadow-4-strong"%>
-  <% end %>
-  <%= @user.fullname%><br>
-  <%=comment.text%><br>
-  <div class="btn-group">
+    <%  @user = User.find(comment.user_id)%>
+    <% if @user.avatar.attached? %>
+      <%= image_tag @user.avatar.variant(resize: '50x50') , :class => "rounded-circle shadow-4-strong"%>
+    <% else %>
+      <%= image_tag 'default_avatar.jpg', size: '50x50', :class => "rounded-circle shadow-4-strong"%>
+    <% end %>
+    <%= @user.fullname%><br>
+    <%=comment.text%><br>
+    <div class="btn-group">
     <%if user_signed_in? && current_user.id == comment.user_id%>
-    <%= button_to 'Edit', edit_product_comment_path(@product,comment.id), method: 'get', class:"btn btn-success" %>
-    <%= button_to 'Delete', product_comment_path(@product,comment.id), method: 'delete', class:"btn btn-danger", remote: true, style:"margin-left:13px" %>
-    <%end%>
+      <%= button_to 'Edit', edit_product_comment_path(@product,comment.id),{:remote => true, 'data-toggle' =>  "modal", 'data-bs-target' => '#exampleModal', class: 'btn btn-success', method: 'get'} %>
+      <%= button_to 'Delete', product_comment_path(@product,comment.id), method: 'delete', class:"btn btn-danger", remote: true, style:"margin-left:13px" %>
+  <%end%>
   </div>
   <hr>
   <%end%>
