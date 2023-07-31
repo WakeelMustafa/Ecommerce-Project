@@ -18,4 +18,6 @@ Rails.application.routes.draw do
   get '/carts/success'
   get '/carts/cancel'
   post '/myproducts/remove_cart_item', to: 'myproducts#remove_cart_item',as: "myproducts_remove_cart_item"
+  post '/carts/apply_coupon'
+
 end

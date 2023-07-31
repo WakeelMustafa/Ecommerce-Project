@@ -10,9 +10,9 @@ class StripeServices
     stripe_product
   end
 
-  def create_stripe_product_price(stripe_product,product)
+  def create_stripe_product_price(stripe_product,product, discount=1)
     stripe_product_price=Stripe::Price.create({
-      unit_amount: product.price*100,
+      unit_amount: (product.price-(product.price/100)*30)*100,
       currency: 'pkr',
       product: stripe_product.id
     })
