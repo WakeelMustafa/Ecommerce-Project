@@ -45,7 +45,7 @@ class ProductsController < ApplicationController
    def add_stripe_product
     stripe_services = StripeServices.new
     stripe_product=stripe_services.create_stripe_product(@product)
-    stripe_product_price=stripe_services.create_stripe_product_price(stripe_product, @product)
+    stripe_product_price=stripe_services.create_stripe_product_price(stripe_product, @product,1)
   end
 
 end

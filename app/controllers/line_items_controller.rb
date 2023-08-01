@@ -1,17 +1,14 @@
 class LineItemsController < ApplicationController
 
   def create
-
     if user_signed_in?
       create_line_item_for_user
     else
       create_line_item_for_guest
     end
-
   end
 
   def destroy
-
     if user_signed_in?
       @line_item = current_user.line_items.find(params[:id])
       @line_item.update(quantity: @line_item.quantity-1) if @line_item.quantity > 0
@@ -22,7 +19,6 @@ class LineItemsController < ApplicationController
       session[:guest_line_items].delete(params[:id]) if session[:guest_line_items][params[:id]]==0
       redirect_to carts_show_path, notice:  'Remove one more quantity'
     end
-
   end
 
   def checkout
@@ -31,8 +27,9 @@ class LineItemsController < ApplicationController
       product = Product.find(item.product_id)
       stripe_lineitems[product.stripe_product_price_id] = item.quantity
     end
-      stripe_session=StripeServices.new.create_checkout(stripe_lineitems)
-      redirect_to stripe_session.url
+    stripe_session=StripeServices.new.create_checkout(stripe_lineitems)
+    redirect_to stripe_session.url
+
   end
 
   def update
@@ -64,7 +61,6 @@ private
   end
 
   def create_line_item_for_guest
-
     product = Product.find(params[:product_id])
     session[:guest_line_items] ||= {}
     unless session[:guest_line_items].has_key?(product.id.to_s)

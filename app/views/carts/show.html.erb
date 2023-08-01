@@ -3,7 +3,6 @@
 <table class="table" style="margin-top:100px">
 
   <thead class="thead-dark">
-
     <tr>
       <th scope="col">#</th>
       <th scope="col">Product Image</th>
@@ -55,12 +54,12 @@
   </tbody>
 </table>
 <% if user_signed_in? && current_user.line_items.present? %>
-  <h1 style="text-align:center"><strong>Grand Total Price: <%= current_user.line_items.sum(&:total_price) %></strong>
-  <%= form_with url:('apply_coupon') do |f| %>
-   <%= f.label :coupon %>
-   <%= f.text_field :code %>
-   <%= f.submit %>
-<% end %>
+   <h1 style="text-align:center"><strong>Grand Total Price: <%= current_user.line_items.sum(&:total_price) %></strong>
+  <%= form_with(model: @cart, url: 'apply_coupon') do |f| %>
+    <%= f.label :coupon %>
+    <%= f.text_field :code %>
+    <%= f.submit "Apply",class: "btn btn-success" %>
+  <% end %>
   <div style="text-align:center">
   <%= button_to 'Checkout',line_items_checkout_path,data: { turbo: false }, method: :post ,  class:"btn btn-info"%>
   </div>
