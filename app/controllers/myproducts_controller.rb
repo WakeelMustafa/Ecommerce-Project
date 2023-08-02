@@ -15,6 +15,12 @@ class MyproductsController < ApplicationController
   end
 
   def remove_cart_item
+    stripe_services = StripeServices.new
+    current_user.line_items.each do |item|
+      @product=Product.find(item.product_id)
+      stripe_product=stripe_services.create_stripe_product(@product)
+      stripe_product_price=stripe_services.create_stripe_product_price(stripe_product, @product,1)
+    end
     current_user.line_items.destroy_all
     redirect_to(action: :index)
   end

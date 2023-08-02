@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
-    before_action :merge_guest_line_items_with_user, if: :user_signed_in?
+  before_action :merge_guest_line_items_with_user, if: :user_signed_in?
 
-   private
+  private
 
   def merge_guest_line_items_with_user
     if session[:guest_line_items].present?

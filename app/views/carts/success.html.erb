@@ -26,5 +26,4 @@
     <% end %>
   </tbody>
 </table>
-<h1 style="text-align:center"><strong>Grand Total Price: <%= current_user.line_items.sum(&:total_price) %></strong>
  <%= button_to 'Back to home',myproducts_remove_cart_item_path, method: :post,  class:"btn btn-danger" ,style:"margin-left:2px"%><br>
