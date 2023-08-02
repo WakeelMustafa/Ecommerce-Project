@@ -23,14 +23,17 @@ class CommentsController < ApplicationController
   end
 
   def create
-     if current_user.id == @product.user_id
+    if current_user.id == @product.user_id
        redirect_to(action: :index)
-     else
+    else
       @comment = @product.comments.build(comment_params)
       @comment.user = current_user
       @comment.save
       redirect_to(action: :index)
-     end
+      if @comment.invalid?
+        flash[:errors] = @comment.errors.full_messages
+      end
+    end
   end
 
   def edit
@@ -47,7 +50,9 @@ class CommentsController < ApplicationController
       redirect_to(action: :index)
     else
       redirect_to(action: :edit)
-
+    end
+    if @comment.invalid?
+      flash[:errors] = @comment.errors.full_messages
     end
   end
 

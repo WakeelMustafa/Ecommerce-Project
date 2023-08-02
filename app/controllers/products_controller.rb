@@ -18,6 +18,9 @@ class ProductsController < ApplicationController
     @product = current_user.products.new(product_params)
     @product.save
     redirect_to(action: :index)
+    if @product.invalid?
+      flash[:errors] = @product.errors.full_messages
+    end
   end
 
   def edit; end
@@ -25,6 +28,9 @@ class ProductsController < ApplicationController
   def update
     @product.update(product_params)
     redirect_to(action: :index)
+    if @product.invalid?
+      flash[:errors] = @product.errors.full_messages
+    end
   end
 
   def destroy
@@ -42,7 +48,7 @@ class ProductsController < ApplicationController
     @product = current_user.products.find(params[:id])
   end
 
-   def add_stripe_product
+  def add_stripe_product
     stripe_services = StripeServices.new
     stripe_product=stripe_services.create_stripe_product(@product)
     stripe_product_price=stripe_services.create_stripe_product_price(stripe_product, @product,1)
