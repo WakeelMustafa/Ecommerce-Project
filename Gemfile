@@ -63,3 +63,7 @@ gem "font-awesome-sass", "~> 6.4.0"
 gem 'thinking-sphinx'
 gem 'mysql2'
 gem 'ransack'
+gem 'sidekiq', '~> 5.2.8'
+gem 'redis'
+gem 'sidekiq-cron'
+gem 'sidekiq-scheduler'
