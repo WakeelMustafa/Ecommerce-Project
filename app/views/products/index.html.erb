@@ -1,12 +1,11 @@
+<h1 style="text-align:center; margin-botto:36px">My Products</h1>
 <div style="text-align:center">
  <%= search_form_for @q do |f| %>
     <%= f.search_field :name_or_description_cont, style: "padding: 5px;" %>
-    <%= f.submit "Search!", class: "btn btn-primary" %>
+    <%= f.submit "Search!", class: "btn btn-info" %>
 </div>
  <% end %>
-<h1 style="text-align:center; margin-botto:36px">My Products</h1>
 <%= link_to 'ADD Product',new_product_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-bs-target' => '#exampleModal', class: 'btn btn-success'}  %>
-
 <div class="container mt-4">
   <div class="row">
     <% @products.each do |product|  %>

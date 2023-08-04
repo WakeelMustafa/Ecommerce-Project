@@ -2,6 +2,7 @@
 require 'spec_helper'
 require 'shoulda/matchers'
 require 'devise'
+require 'simplecov'
 
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
@@ -28,6 +29,8 @@ RSpec.configure do |config|
   end
 end
 
+SimpleCov.start 'rails' do
+end
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
