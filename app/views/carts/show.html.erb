@@ -55,7 +55,7 @@
 </table>
 <% if user_signed_in? && current_user.line_items.present? %>
    <h1 style="text-align:center"><strong>Grand Total Price: <%= current_user.line_items.sum(&:total_price) %></strong>
-  <%= form_with(model: @cart, url: 'apply_coupon') do |f| %>
+  <%= form_with(model: @cart, url: 'apply_coupon_carts_path') do |f| %>
     <%= f.label :coupon %>
     <%= f.text_field :code %>
     <%= f.submit "Apply",class: "btn btn-success" %>
