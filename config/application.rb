@@ -20,5 +20,14 @@ module EcommerceProject
     config.eager_load_paths << Rails.root.join("app/services/")
 
     config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_adapter = :delayed_job
+
+
+    config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    origins 'your_swagger_ui_domain'
+    resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options]
+  end
+end
   end
 end

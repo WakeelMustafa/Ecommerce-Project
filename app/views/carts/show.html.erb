@@ -28,7 +28,9 @@
           <%= button_to '-', line_item, method: :delete ,  class:"btn btn-danger", remote: true ,style:"margin-left:2px"%><br>
         </div>
         </td>
-        <td> <%=@product.price*line_item.quantity %></td>
+        <td> <%=@product.price*line_item.quantity %>
+          <%= line_item.quantity %></td>
+
         </tr>
      <% end %>
     <% else %>
@@ -53,6 +55,7 @@
     <% end %>
   </tbody>
 </table>
+<%= will_paginate @line_items %>
 <% if user_signed_in? && current_user.line_items.present? %>
    <h1 style="text-align:center"><strong>Grand Total Price: <%= current_user.line_items.sum(&:total_price) %></strong>
   <%= form_with(model: @cart, url: 'apply_coupon') do |f| %>
@@ -60,8 +63,11 @@
     <%= f.text_field :code %>
     <%= f.submit "Apply",class: "btn btn-success" %>
   <% end %>
-  <div style="text-align:center">
-  <%= button_to 'Checkout',line_items_checkout_path,data: { turbo: false }, method: :post ,  class:"btn btn-info"%>
+  <div style="text-align:center", class="btn-group">
+  <%= button_to 'Generate PDF',export_pdf_carts_path(format: :pdf), class:"btn btn-warning", method: :get%>
+  <%= button_to 'Export CSV', export_csv_carts_path(format: :csv), class: 'btn btn-primary', method: :get, style:"margin-left:5px"%>
+
+  <%= button_to 'Checkout',line_items_checkout_path,data: { turbo: false }, method: :post ,  class:"btn btn-info", style:"margin-left:5px"%>
   </div>
   </h1>
 <%else %>

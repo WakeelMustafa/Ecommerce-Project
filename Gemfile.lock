@@ -80,7 +80,13 @@ GEM
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
     crass (1.0.6)
+    csv (3.2.6)
     date (3.3.3)
+    delayed_job (4.1.11)
+      activesupport (>= 3.0, < 8.0)
+    delayed_job_active_record (4.1.7)
+      activerecord (>= 3.0, < 8.0)
+      delayed_job (>= 3.0, < 5)
     devise (4.9.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -122,6 +128,12 @@ GEM
       activesupport (>= 5.0.0)
     joiner (0.6.0)
       activerecord (>= 6.1.0)
+    json-schema (3.0.0)
+      addressable (>= 2.8)
+    launchy (2.5.2)
+      addressable (~> 2.8)
+    letter_opener (1.8.1)
+      launchy (>= 2.2, < 3)
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -327,6 +339,9 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   capybara (>= 3.26)
+  csv
+  delayed_job
+  delayed_job_active_record (~> 4.1)
   devise
   dotenv-rails
   factory_bot_rails
@@ -334,6 +349,7 @@ DEPENDENCIES
   font-awesome-sass (~> 6.4.0)
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
+  letter_opener
   listen (~> 3.3)
   mysql2
   pg (~> 1.1)
