@@ -1,0 +1,4 @@
+Product Name,Quantity,Total Price
+<% @line_items.each do |line_item| %>
+<%= line_item.product.name %>,<%= line_item.quantity %>,<%= line_item.total_price %>
+<% end %>
