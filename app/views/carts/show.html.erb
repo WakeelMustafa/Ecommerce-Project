@@ -1,69 +1,90 @@
 <h1 style="text-align:center;margin-top:20px">Cart</h1>
-
-<table class="table" style="margin-top:100px">
-
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Product Image</th>
-      <th scope="col">Product Name</th>
-      <th scope="col">Product Price</th>
-      <th scope="col">Product Quantity</th>
-      <th scope="col">Product Total Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if user_signed_in? %>
-       <tr>
-     <% @line_items.each_with_index do |line_item, index| %>
-        <% @product = Product.find(line_item.product_id)%>
-        <th scope="row"><%=index+1%></th>
-        <td><%= image_tag @product.images.first, size: '50x50' %></td>
-        <td> <%=@product.name%></td>
-        <td> <%=@product.price%></td>
-        <td>
-        <div class="btn-group">
-          <%= button_to '+', line_item, method: :patch, class: "btn btn-success", remote: true, style:"margin-right:2px"%>
-          <%= line_item.quantity %>
-          <%= button_to '-', line_item, method: :delete ,  class:"btn btn-danger", remote: true ,style:"margin-left:2px"%><br>
-        </div>
-        </td>
-        <td> <%=@product.price*line_item.quantity %></td>
+<%= form_with url: export_csv_carts_path(format: :csv), method: :get, local: true do |f| %>
+  <%= f.hidden_field :type, value: 'selected' %>
+  <table class="table" style="margin-top:100px">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Select</th>
+        <th scope="col">Product Image</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Product Price</th>
+        <th scope="col">Product Quantity</th>
+        <th scope="col">Product Total Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if user_signed_in? %>
+        <% @line_items.each_with_index do |line_item, index| %>
+          <% @product = Product.find(line_item.product_id)%>
+          <tr>
+            <th scope="row"><%= index + 1 %></th>
+            <td><%= f.check_box :product_selected, { multiple: true }, line_item.id, nil %></td>
+            <td><%= image_tag @product.images.first, size: '50x50' %></td>
+            <td><%= @product.name %></td>
+            <td><%= @product.price %></td>
+            <td>
+              <div class="btn-group">
+                <%= button_to '+', line_item, method: :patch, class: "btn btn-success", remote: true, style:"margin-right:2px" %>
+                <%= line_item.quantity %>
+                <%= button_to '-', line_item, method: :delete ,  class:"btn btn-danger", remote: true ,style:"margin-left:2px" %><br>
+              </div>
+            </td>
+            <td><%= @product.price * line_item.quantity %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <% index = 1 %>
+          <% session[:guest_line_items]&.each do |product_id, quantity| %>
+            <% @product = Product.find(product_id)%>
+            <th scope="row"><%= index %></th>
+            <td><%= image_tag @product.images.first, size: '50x50' %></td>
+            <td><%= @product.name %></td>
+            <td><%= @product.price %></td>
+            <td>
+              <div class="btn-group">
+                <%= button_to '+', line_item_path(product_id), method: :patch, class: "btn btn-success", remote: true, style:"margin-right:2px" %>
+                <%= quantity %>
+                <%= button_to '-', line_item_path(product_id), method: :delete ,  class:"btn btn-danger", remote: true ,style:"margin-left:2px" %><br>
+              </div>
+            </td>
+            <td><%= @product.price * quantity %></td>
+          </tr>
+          <% index += 1 %>
+        <% end %>
         </tr>
-     <% end %>
-    <% else %>
-     <tr>
-      <%index=1%>
-      <% session[:guest_line_items]&.each do |product_id, quantity| %>
-         <% @product = Product.find(product_id)%>
-         <th scope="row"><%=index%></th><%index+=1%>
-         <td><%= image_tag @product.images.first, size: '50x50' %></td>
-         <td> <%= @product.name %></td>
-         <td><%= @product.price %></td>
-         <td>
-          <div class="btn-group">
-            <%= button_to '+', line_item_path(product_id), method: :patch, class: "btn btn-success", remote: true, style:"margin-right:2px"%>
-            <%= quantity %>
-            <%= button_to '-', line_item_path(product_id), method: :delete ,  class:"btn btn-danger", remote: true ,style:"margin-left:2px"%><br>
-          </div>
-         </td>
-         <td> <%=@product.price*quantity %></td>
-         </tr>
       <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @line_items, remote: true %>
+
+  <% if user_signed_in? && current_user.line_items.present? %>
+    <h1 style="text-align:center">
+      <strong>Grand Total Price: <%= current_user.line_items.sum(&:total_price) %></strong>
+    </h1>
+    <div style="text-align:center">
+      <%= form_with(model: @cart, url: 'apply_coupon') do |f| %>
+        <%= f.label :coupon %>
+        <%= f.text_field :code %>
+        <%= f.submit "Apply", class: "btn btn-success" %>
+      <% end %>
+      <div style="text-align:center" class="btn-group">
+        <%= button_to 'Generate PDF', export_pdf_carts_path(format: :pdf), class: "btn btn-warning", method: :get %>
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Export CSV
+          </button>
+          <div class="dropdown-menu">
+            <%= link_to 'Export All Records', export_csv_carts_path(format: :csv, type: 'all'), class: 'dropdown-item' %>
+            <%= f.submit "Export Selected Records", class: 'dropdown-item' %>
+            <%= link_to 'Export Current Page', export_csv_carts_path(format: :csv, type: 'current_page', page: @line_items.current_page), class: 'dropdown-item' %>
+          </div>
+        </div>
+        <%= button_to 'Checkout', line_items_checkout_path, data: { turbo: false }, method: :post, class: "btn btn-info", style: "margin-left:5px" %>
+      </div>
+    <% else %>
+      <h1 style="text-align:center"><strong>Grand Total Price: <%= total_price %></strong></h1>
     <% end %>
-  </tbody>
-</table>
-<% if user_signed_in? && current_user.line_items.present? %>
-   <h1 style="text-align:center"><strong>Grand Total Price: <%= current_user.line_items.sum(&:total_price) %></strong>
-  <%= form_with(model: @cart, url: 'apply_coupon') do |f| %>
-    <%= f.label :coupon %>
-    <%= f.text_field :code %>
-    <%= f.submit "Apply",class: "btn btn-success" %>
-  <% end %>
-  <div style="text-align:center">
-  <%= button_to 'Checkout',line_items_checkout_path,data: { turbo: false }, method: :post ,  class:"btn btn-info"%>
   </div>
-  </h1>
-<%else %>
-  <h1 style="text-align:center"><strong>Grand Total Price: <%=total_price %></strong> </h1>
-<%end%>
+<% end %>

@@ -13,8 +13,12 @@ Rails.application.routes.draw do
   end
 
   resources :line_items, only: [:destroy, :update]
-
-
+   resources :carts do
+    collection do
+      get :export_csv, format: :csv
+      get 'export_pdf'
+    end
+  end
   get 'carts/show', to: 'carts#show'
   get 'carts/cancel', to: 'carts#cancel'
   get 'carts/success', to: 'carts#success'
